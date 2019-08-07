@@ -8,7 +8,7 @@ import org.junit.Test;
 public class ContractStorageTest {
 
     @Test
-    public void withSplatStorageTest() {
+    public void withSplatMatchingTest() {
         ContractStorage.clear();
 
         Contract contract = new Contract();
@@ -23,7 +23,7 @@ public class ContractStorageTest {
     }
 
     @Test
-    public void withParamsStorageTest() {
+    public void withParamsMatchingTest() {
         ContractStorage.clear();
 
         Contract contract = new Contract();
@@ -38,7 +38,7 @@ public class ContractStorageTest {
     }
 
     @Test
-    public void withoutParamsStorageTest() {
+    public void withoutParamsMatchingTest() {
         ContractStorage.clear();
 
         Contract contract = new Contract();

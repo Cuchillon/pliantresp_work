@@ -9,19 +9,19 @@ import spark.route.HttpMethod;
 public class RequestDTO {
 
     @JsonProperty(required = true)
-    private HttpMethod method;
+    private String method;
     private String body;
     private Map<String, String> headers;
 
     public RequestDTO() {
     }
 
-    public HttpMethod getMethod() {
+    public String getMethod() {
         return method;
     }
 
     @JsonProperty
-    public void setMethod(HttpMethod method) {
+    public void setMethod(String method) {
         this.method = method;
     }
 

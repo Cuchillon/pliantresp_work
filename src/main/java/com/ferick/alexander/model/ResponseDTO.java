@@ -9,18 +9,18 @@ import org.eclipse.jetty.http.HttpStatus;
 public class ResponseDTO {
 
     @JsonProperty(required = true)
-    private HttpStatus status;
+    private Integer status;
     private String body;
     private Map<String, String> headers;
 
     public ResponseDTO() {
     }
 
-    public HttpStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

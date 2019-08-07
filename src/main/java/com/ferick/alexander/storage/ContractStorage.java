@@ -16,14 +16,14 @@ public class ContractStorage {
                 .findFirst();
     }
 
-    public static void add(Contract contract) {
+    public static boolean add(Contract contract) {
         for (Contract item : contracts) {
             if (StringUtils.matchPaths(contract.getPath(), item.getPath())) {
                 contracts.remove(item);
                 break;
             }
         }
-        contracts.add(contract);
+        return contracts.add(contract);
     }
 
     public static void clear() {
