@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Contract {
 
-    @JsonProperty(required = true)
-    private String path;
+    @JsonProperty(required = true, value = "request_path")
+    private RequestPath requestPath;
 
     @JsonProperty(required = true)
     private RequestDTO request;
@@ -24,12 +24,12 @@ public class Contract {
     public Contract() {
     }
 
-    public String getPath() {
-        return path;
+    public RequestPath getRequestPath() {
+        return requestPath;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setRequestPath(RequestPath requestPath) {
+        this.requestPath = requestPath;
     }
 
     public RequestDTO getRequest() {

@@ -1,5 +1,6 @@
 package com.ferick.alexander;
 
+import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
@@ -11,6 +12,10 @@ public class PliantrespApplication {
 
         get("/storage/contracts", new ContractService()::getContracts);
 
-        post("/storage/contracts", new ContractService()::addContract);
+        post("/storage/contract", new ContractService()::addContract);
+
+        delete("/storage/contracts", new ContractService()::deleteContracts);
+
+        delete("/storage/contract", new ContractService()::deleteContract);
     }
 }
