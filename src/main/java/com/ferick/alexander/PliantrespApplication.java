@@ -9,8 +9,8 @@ public class PliantrespApplication {
 
     public static void main(String[] args) {
 
-        get("/storage/contracts", (request, response) -> request.pathInfo());
+        get("/storage/contracts", new ContractService()::getContracts);
 
-        post("/storage/contracts", (request, response) -> new ContractService().addContract(request.body()));
+        post("/storage/contracts", new ContractService()::addContract);
     }
 }

@@ -3,7 +3,6 @@ package com.ferick.alexander.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
-import org.eclipse.jetty.http.HttpStatus;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponseDTO {

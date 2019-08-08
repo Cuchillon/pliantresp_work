@@ -3,7 +3,6 @@ package com.ferick.alexander.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
-import spark.route.HttpMethod;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestDTO {

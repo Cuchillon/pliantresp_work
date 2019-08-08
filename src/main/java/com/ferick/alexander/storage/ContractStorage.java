@@ -16,6 +16,10 @@ public class ContractStorage {
                 .findFirst();
     }
 
+    public static List<Contract> getAll() {
+        return contracts;
+    }
+
     public static boolean add(Contract contract) {
         for (Contract item : contracts) {
             if (StringUtils.matchPaths(contract.getPath(), item.getPath())) {
