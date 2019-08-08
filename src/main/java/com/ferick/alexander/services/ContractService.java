@@ -43,7 +43,7 @@ public class ContractService {
                 jsonString.append(JsonTransformer.toJson(contract));
             }
         } else {
-            response.status(HttpStatus.BAD_REQUEST_400);
+            response.status(HttpStatus.NOT_FOUND_404);
             jsonString.append("Contracts list is empty");
         }
 
