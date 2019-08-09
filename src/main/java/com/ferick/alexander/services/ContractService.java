@@ -16,6 +16,7 @@ public class ContractService {
     public String addContract(Request request, Response response) {
         StringBuilder jsonString = new StringBuilder();
         Contract contract = null;
+        boolean isAdded = false;
 
         try {
             contract = new ObjectMapper().readValue(request.body(), Contract.class);
@@ -23,7 +24,9 @@ public class ContractService {
             e.printStackTrace();
         }
 
-        boolean isAdded = ContractStorage.add(contract);
+        if (contract != null) {
+            isAdded = ContractStorage.add(contract);
+        }
 
         if ((isAdded)) {
             response.status(HttpStatus.OK_200);
