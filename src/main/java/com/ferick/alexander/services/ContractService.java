@@ -14,7 +14,7 @@ import spark.Response;
 public class ContractService {
 
     public String addContract(Request request, Response response) {
-        StringBuilder jsonString = new StringBuilder();
+        String responseBody;
         Contract contract = null;
         boolean isAdded = false;
 
@@ -30,13 +30,13 @@ public class ContractService {
 
         if ((isAdded)) {
             response.status(HttpStatus.OK_200);
-            jsonString.append("Contract is added");
+            responseBody = "Contract is added";
         } else {
             response.status(HttpStatus.BAD_REQUEST_400);
-            jsonString.append("Contract is not added");
+            responseBody = "Contract is not added";
         }
 
-        return jsonString.toString();
+        return responseBody;
     }
 
     public String getContracts(Request request, Response response) {
@@ -62,7 +62,7 @@ public class ContractService {
     }
 
     public String deleteContract(Request request, Response response) {
-        StringBuilder jsonString = new StringBuilder();
+        String responseBody;
         RequestPath requestPath = null;
 
         try {
@@ -75,28 +75,28 @@ public class ContractService {
 
         if ((isDeleted)) {
             response.status(HttpStatus.OK_200);
-            jsonString.append("Contract is deleted");
+            responseBody = "Contract is deleted";
         } else {
             response.status(HttpStatus.BAD_REQUEST_400);
-            jsonString.append("Contract is not deleted");
+            responseBody = "Contract is not deleted";
         }
 
-        return jsonString.toString();
+        return responseBody;
     }
 
     public String deleteContracts(Request request, Response response) {
-        StringBuilder jsonString = new StringBuilder();
+        String responseBody;
 
         ContractStorage.clear();
 
         if ((ContractStorage.count() == 0)) {
             response.status(HttpStatus.OK_200);
-            jsonString.append("Contracts list is empty");
+            responseBody = "Contracts list is empty";
         } else {
             response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
-            jsonString.append("Contracts list is not empty");
+            responseBody = "Contracts list is not empty";
         }
 
-        return jsonString.toString();
+        return responseBody;
     }
 }
