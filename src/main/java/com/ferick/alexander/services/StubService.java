@@ -32,14 +32,14 @@ public class StubService {
             if (isMatched) {
                 ResponseDTO positiveResponse = contract.getPositiveResponse();
                 if (positiveResponse != null) {
-                    formResponse(response, jsonString, positiveResponse);
+                    jsonString.append(formResponse(response, positiveResponse));
                 } else {
                     response.status(HttpStatus.OK_200);
                 }
             } else {
                 ResponseDTO negativeResponse = contract.getNegativeResponse();
                 if (negativeResponse != null) {
-                    formResponse(response, jsonString, negativeResponse);
+                    jsonString.append(formResponse(response, negativeResponse));
                 } else {
                     response.status(HttpStatus.NOT_FOUND_404);
                 }
@@ -61,13 +61,15 @@ public class StubService {
         return null;
     }
 
-    private void formResponse(Response response, StringBuilder jsonString, ResponseDTO responseDTO) {
+    private String formResponse(Response response, ResponseDTO responseDTO) {
+        String body = "";
         response.status(responseDTO.getStatus());
         if (responseDTO.getBody() != null) {
-            jsonString.append(responseDTO.getBody());
+            body = responseDTO.getBody();
         }
         if (responseDTO.getHeaders() != null && !responseDTO.getHeaders().isEmpty()) {
             responseDTO.getHeaders().forEach(response::header);
         }
+        return body;
     }
 }
