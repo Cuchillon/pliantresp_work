@@ -6,6 +6,7 @@ import com.ferick.alexander.model.RequestPath;
 import com.ferick.alexander.storage.ContractStorage;
 import com.ferick.alexander.utils.JsonTransformer;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
@@ -40,25 +41,20 @@ public class ContractService {
     }
 
     public String getContracts(Request request, Response response) {
-        StringBuilder jsonString = new StringBuilder();
-        jsonString.append('[');
+        List<String> jsonList = new ArrayList<>();
         List<Contract> contracts = ContractStorage.getAll();
 
         if (!contracts.isEmpty()) {
             response.status(HttpStatus.OK_200);
             response.type("application/json");
             for (Contract contract : contracts) {
-                jsonString.append(JsonTransformer.toJson(contract));
-                jsonString.append(',');
+                jsonList.add(JsonTransformer.toJson(contract));
             }
-            jsonString.deleteCharAt(jsonString.length() - 1);
-            jsonString.append(']');
+            return jsonList.toString();
         } else {
             response.status(HttpStatus.NOT_FOUND_404);
-            jsonString.append("Contracts list is empty");
+            return "Contracts list is empty";
         }
-
-        return jsonString.toString();
     }
 
     public String deleteContract(Request request, Response response) {
