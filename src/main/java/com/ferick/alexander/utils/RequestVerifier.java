@@ -82,4 +82,15 @@ public class RequestVerifier {
 
         return pathParams;
     }
+
+    public static String checkPathParams(Map<String, String> pathParams, String bodyTemplate) {
+        String responseBody = bodyTemplate.trim();
+        for (Map.Entry<String, String> entry : pathParams.entrySet()) {
+            String replacement = String.format("${%s}", entry.getKey());
+            if (responseBody.contains(replacement)) {
+                responseBody = responseBody.replace(replacement, entry.getValue());
+            }
+        }
+        return responseBody;
+    }
 }
