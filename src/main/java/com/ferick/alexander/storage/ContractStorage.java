@@ -2,7 +2,7 @@ package com.ferick.alexander.storage;
 
 import com.ferick.alexander.model.Contract;
 import com.ferick.alexander.model.RequestPath;
-import com.ferick.alexander.utils.StringUtils;
+import com.ferick.alexander.utils.RequestVerifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ public class ContractStorage {
 
     public static Optional<Contract> get(String pathInfo) {
         return contracts.stream()
-                .filter(contract -> StringUtils.matchPaths(pathInfo, contract.getRequestPath().getPath()))
+                .filter(contract -> RequestVerifier.matchPaths(pathInfo, contract.getRequestPath().getPath()))
                 .findFirst();
     }
 
@@ -29,7 +29,7 @@ public class ContractStorage {
     public static boolean delete(RequestPath requestPath) {
         boolean deleted = false;
         for (Contract item : contracts) {
-            if (StringUtils.matchPaths(requestPath.getPath(), item.getRequestPath().getPath())) {
+            if (RequestVerifier.matchPaths(requestPath.getPath(), item.getRequestPath().getPath())) {
                 deleted = contracts.remove(item);
                 break;
             }
