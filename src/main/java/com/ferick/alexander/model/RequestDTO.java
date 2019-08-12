@@ -2,6 +2,7 @@ package com.ferick.alexander.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.HashMap;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -9,8 +10,8 @@ public class RequestDTO {
 
     @JsonProperty(required = true)
     private String method;
-    private String body;
-    private Map<String, String> headers;
+    private String body = "";
+    private Map<String, String> headers = new HashMap<>();
 
     public RequestDTO() {
     }
