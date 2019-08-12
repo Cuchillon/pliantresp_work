@@ -11,7 +11,10 @@ public class RequestVerifier {
         boolean isMatched = true;
         RequestDTO contractRequest = contract.getRequest();
         if (contractRequest.getMethod().equals(request.requestMethod())) {
-            String requestBody = request.body().trim().replace("\n", "");
+            String requestBody = request.body()
+                    .trim()
+                    .replaceAll("\n", "")
+                    .replaceAll("\t", "");
 
             if (!requestBody.equals(contractRequest.getBody())) {
                 isMatched = false;

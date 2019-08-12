@@ -17,12 +17,13 @@ public class StubService {
     }
 
     public String responseToPost(Request request, Response response) {
-        StringBuilder jsonString = new StringBuilder();
+        String responseBody = "";
 
         String requestPath = request.pathInfo();
         Optional<Contract> contractOptional = ContractStorage.get(requestPath);
 
-        contractOptional.ifPresent(contract -> {
+        if (contractOptional.isPresent()) {
+            Contract contract = contractOptional.get();
             boolean isMatched = RequestVerifier.matchRequest(request, contract);
 
             if (contract.getResponseTimeout() != null) {
@@ -32,21 +33,23 @@ public class StubService {
             if (isMatched) {
                 ResponseDTO positiveResponse = contract.getPositiveResponse();
                 if (positiveResponse != null) {
-                    jsonString.append(formResponse(response, positiveResponse));
+                    responseBody = formResponse(response, positiveResponse);
                 } else {
                     response.status(HttpStatus.OK_200);
                 }
             } else {
                 ResponseDTO negativeResponse = contract.getNegativeResponse();
                 if (negativeResponse != null) {
-                    jsonString.append(formResponse(response, negativeResponse));
+                    responseBody = formResponse(response, negativeResponse);
                 } else {
-                    response.status(HttpStatus.NOT_FOUND_404);
+                    response.status(HttpStatus.BAD_REQUEST_400);
                 }
             }
-        });
+        } else {
+            response.status(HttpStatus.NOT_FOUND_404);
+        }
 
-        return jsonString.toString();
+        return responseBody;
     }
 
     public String responseToPut(Request request, Response response) {
