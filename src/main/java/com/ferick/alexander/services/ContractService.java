@@ -60,6 +60,7 @@ public class ContractService {
     public String deleteContract(Request request, Response response) {
         String responseBody;
         RequestPath requestPath = null;
+        boolean isDeleted = false;
 
         try {
             requestPath = new ObjectMapper().readValue(request.body(), RequestPath.class);
@@ -67,7 +68,9 @@ public class ContractService {
             e.printStackTrace();
         }
 
-        boolean isDeleted = ContractStorage.delete(requestPath);
+        if (requestPath != null) {
+            isDeleted = ContractStorage.delete(requestPath);
+        }
 
         if ((isDeleted)) {
             response.status(HttpStatus.OK_200);

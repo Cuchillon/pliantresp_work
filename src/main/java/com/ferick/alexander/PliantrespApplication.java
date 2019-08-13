@@ -7,6 +7,7 @@ import static spark.Spark.post;
 import static spark.Spark.put;
 
 import com.ferick.alexander.services.ContractService;
+import com.ferick.alexander.services.RequestService;
 import com.ferick.alexander.services.StubService;
 
 public class PliantrespApplication {
@@ -18,6 +19,11 @@ public class PliantrespApplication {
         post("/storage/contract", new ContractService()::addContract);
         delete("/storage/contracts", new ContractService()::deleteContracts);
         delete("/storage/contract", new ContractService()::deleteContract);
+
+        // Methods to get stored requests
+        get("/storage/requests", new RequestService()::getRequests);
+        post("/storage/request", new RequestService()::getRequest);
+        delete("/storage/requests", new RequestService()::deleteRequests);
 
         // Methods to work with stubs
         get("/*", new StubService()::getResponse);

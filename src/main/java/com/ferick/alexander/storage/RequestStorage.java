@@ -18,7 +18,7 @@ public class RequestStorage {
                 .findFirst();
     }
 
-    public Collection<RequestDTO> getAll() {
+    public static Collection<RequestDTO> getAll() {
         return requests.values();
     }
 
@@ -34,5 +34,9 @@ public class RequestStorage {
 
     public static void clear() {
         requests.clear();
+    }
+
+    public static int count() {
+        return requests.size();
     }
 }
