@@ -14,11 +14,7 @@ import spark.Response;
 
 public class StubService {
 
-    public String responseToGet(Request request, Response response) {
-        return null;
-    }
-
-    public String responseToPost(Request request, Response response) {
+    public String getResponse(Request request, Response response) {
         String responseBody = "";
 
         String requestPath = request.pathInfo();
@@ -54,18 +50,6 @@ public class StubService {
         }
 
         return responseBody;
-    }
-
-    public String responseToPut(Request request, Response response) {
-        return null;
-    }
-
-    public String responseToPatch(Request request, Response response) {
-        return null;
-    }
-
-    public String responseToDelete(Request request, Response response) {
-        return null;
     }
 
     private String formResponse(Response response, ResponseDTO responseDTO, Map<String, String> pathParams) {

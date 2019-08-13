@@ -20,10 +20,10 @@ public class PliantrespApplication {
         delete("/storage/contract", new ContractService()::deleteContract);
 
         // Methods to work with stubs
-        get("/*", new StubService()::responseToGet);
-        post("/*", new StubService()::responseToPost);
-        put("/*", new StubService()::responseToPut);
-        patch("/*", new StubService()::responseToPatch);
-        delete("/*", new StubService()::responseToDelete);
+        get("/*", new StubService()::getResponse);
+        post("/*", new StubService()::getResponse);
+        put("/*", new StubService()::getResponse);
+        patch("/*", new StubService()::getResponse);
+        delete("/*", new StubService()::getResponse);
     }
 }
