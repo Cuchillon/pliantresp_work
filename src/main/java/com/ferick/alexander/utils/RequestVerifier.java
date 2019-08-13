@@ -84,9 +84,9 @@ public class RequestVerifier {
     }
 
     public static String checkPathParams(Map<String, String> pathParams, String bodyTemplate) {
-        String responseBody = bodyTemplate.trim();
+        String responseBody = bodyTemplate.replaceAll("\\s+", "");
         for (Map.Entry<String, String> entry : pathParams.entrySet()) {
-            String replacement = String.format("${%s}", entry.getKey());
+            String replacement = String.format("{{%s}}", entry.getKey());
             if (responseBody.contains(replacement)) {
                 responseBody = responseBody.replace(replacement, entry.getValue());
             }
