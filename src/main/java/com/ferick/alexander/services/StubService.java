@@ -1,13 +1,16 @@
 package com.ferick.alexander.services;
 
 import com.ferick.alexander.model.Contract;
+import com.ferick.alexander.model.RequestDTO;
 import com.ferick.alexander.model.ResponseDTO;
 import com.ferick.alexander.storage.ContractStorage;
+import com.ferick.alexander.storage.RequestStorage;
 import com.ferick.alexander.utils.RequestVerifier;
 import com.ferick.alexander.utils.Tools;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
@@ -16,6 +19,8 @@ public class StubService {
 
     public String getResponse(Request request, Response response) {
         String responseBody = "";
+
+        storeRequest(request);
 
         String requestPath = request.pathInfo();
         Optional<Contract> contractOptional = ContractStorage.get(requestPath);
@@ -67,5 +72,17 @@ public class StubService {
             responseDTO.getHeaders().forEach(response::header);
         }
         return body;
+    }
+
+    private void storeRequest(Request request) {
+        RequestDTO requestDTO = new RequestDTO();
+        requestDTO.setMethod(request.requestMethod());
+        requestDTO.setBody(request.body());
+        Set<String> headers = request.headers();
+        for (String header : headers) {
+            requestDTO.getHeaders().put(header, request.headers(header));
+        }
+
+        RequestStorage.add(request.pathInfo(), requestDTO);
     }
 }
