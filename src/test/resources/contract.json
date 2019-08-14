@@ -1,13 +1,13 @@
 {
-  "request_path": {
-    "path": "/some/path"
-  },
   "request": {
     "method":"POST",
     "body":"{some object}",
     "headers": {
-      "Content-type": "application/json"    
+      "Content-type": "application/json"
     }
+  },
+  "request_path": {
+    "path": "/test1/*"
   },
   "positive_response": {
     "status": 200,
@@ -18,7 +18,10 @@
   },
   "negative_response": {
     "status": 404,
-    "error_message": "Not found"
+    "body": "Not found",
+    "headers": {
+      "Content-type": "text/xml"
+    }
   },
   "response_timeout": 1000
 }

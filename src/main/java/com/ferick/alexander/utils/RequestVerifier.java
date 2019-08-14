@@ -49,10 +49,7 @@ public class RequestVerifier {
         boolean isMatched = true;
         RequestDTO contractRequest = contract.getRequest();
         if (contractRequest.getMethod().equals(request.requestMethod())) {
-            String requestBody = request.body()
-                    .trim()
-                    .replaceAll("\n", "")
-                    .replaceAll("\t", "");
+            String requestBody = StringUtils.removeSpecialSymbols(request.body());
 
             if (!requestBody.equals(contractRequest.getBody())) {
                 isMatched = false;

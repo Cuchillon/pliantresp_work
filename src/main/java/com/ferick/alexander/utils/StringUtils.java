@@ -1,9 +1,12 @@
 package com.ferick.alexander.utils;
 
-import java.util.List;
-import spark.utils.SparkUtils;
-
 public class StringUtils {
 
-    //
+    public static String removeSpecialSymbols(String initialString) {
+        return initialString
+                .trim()
+                .replaceAll("\n", "")
+                .replaceAll("\t", "")
+                .replaceAll("\\s+", "");
+    }
 }

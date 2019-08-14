@@ -1,12 +1,16 @@
 package com.ferick.alexander.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import com.ferick.alexander.model.Contract;
 import com.ferick.alexander.model.RequestDTO;
 import com.ferick.alexander.model.RequestPath;
 import com.ferick.alexander.model.ResponseDTO;
 import com.ferick.alexander.storage.ContractStorage;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,43 +18,20 @@ import org.junit.Test;
 
 public class JsonTransformerTest {
 
-    private static final String JSON = "{\n" +
-            "  \"request\" : {\n" +
-            "    \"method\" : \"POST\",\n" +
-            "    \"body\" : \"{some object}\",\n" +
-            "    \"headers\" : {\n" +
-            "      \"Content-type\" : \"application/json\"\n" +
-            "    }\n" +
-            "  },\n" +
-            "  \"request_path\" : {\n" +
-            "    \"path\" : \"/test1/*\"\n" +
-            "  },\n" +
-            "  \"positive_response\" : {\n" +
-            "    \"status\" : 200,\n" +
-            "    \"body\" : \"{some object}\",\n" +
-            "    \"headers\" : {\n" +
-            "      \"Content-type\" : \"application/json\"\n" +
-            "    }\n" +
-            "  },\n" +
-            "  \"negative_response\" : {\n" +
-            "    \"status\" : 404,\n" +
-            "    \"body\" : \"{some object}\",\n" +
-            "    \"headers\" : {\n" +
-            "      \"Content-type\" : \"application/json\"\n" +
-            "    }\n" +
-            "  },\n" +
-            "  \"response_timeout\" : 1000\n" +
-            "}";
-
     @Test
-    public void getContractsTest() {
+    public void getContractsTest() throws IOException {
         ContractStorage.clear();
         ContractStorage.add(getContract());
 
         List<Contract> contracts = ContractStorage.getAll();
-        String json = JsonTransformer.toJson(contracts.get(0));
+        String actualJson = JsonTransformer.toJson(contracts.get(0));
 
-        assertEquals(JSON, json);
+        String expectedJson = Files.lines(
+                Paths.get("src/test/resources/contract.json"), StandardCharsets.UTF_8)
+                .reduce((s1, s2) -> s1 + s2).orElse("");
+
+        assertEquals(StringUtils.removeSpecialSymbols(expectedJson),
+                StringUtils.removeSpecialSymbols(actualJson));
     }
 
     private Contract getContract() {
@@ -79,9 +60,9 @@ public class JsonTransformerTest {
         ResponseDTO negativeResponse = new ResponseDTO();
         negativeResponse.setStatus(404);
         Map<String, String> negativeResponseHeaders = new HashMap<>();
-        negativeResponseHeaders.put("Content-type", "application/json");
+        negativeResponseHeaders.put("Content-type", "text/xml");
         negativeResponse.setHeaders(negativeResponseHeaders);
-        negativeResponse.setBody("{some object}");
+        negativeResponse.setBody("Not found");
         contract.setNegativeResponse(negativeResponse);
 
         contract.setResponseTimeout(1000);
