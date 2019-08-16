@@ -1,6 +1,12 @@
 package com.ferick.alexander;
 
+import com.ferick.alexander.model.Contract;
+import com.ferick.alexander.model.RequestPath;
+import feign.Feign;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 import java.net.URL;
+import java.util.List;
 
 public class PliantrespClient {
 
@@ -18,6 +24,13 @@ public class PliantrespClient {
         this.scheme = DEFAULT_SCHEME;
         this.host = DEFAULT_HOST;
         this.port = DEFAULT_PORT;
+        this.serverUrl = String.format(ADDRESS_TEMPLATE, scheme, host, port);
+    }
+
+    public PliantrespClient(String scheme, String host, int port) {
+        this.scheme = scheme;
+        this.host = host;
+        this.port = port;
         this.serverUrl = String.format(ADDRESS_TEMPLATE, scheme, host, port);
     }
 
@@ -47,5 +60,28 @@ public class PliantrespClient {
         this.host = url.getHost();
         this.port = url.getPort();
         this.serverUrl = String.format(ADDRESS_TEMPLATE, scheme, host, port);
+    }
+
+    public List<Contract> getContracts() {
+        return contractService().getContracts();
+    }
+
+    public String addContract(Contract contract) {
+        return contractService().addContract(contract);
+    }
+
+    public String deleteContracts() {
+        return contractService().deleteContracts();
+    }
+
+    public String deleteContract(RequestPath requestPath) {
+        return contractService().deleteContract(requestPath);
+    }
+
+    private ContractEndPoints contractService() {
+        return Feign.builder()
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
+                .target(ContractEndPoints.class, serverUrl);
     }
 }
