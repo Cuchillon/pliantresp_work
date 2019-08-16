@@ -1,5 +1,33 @@
-description = 'client'
-version '0.0.1-SNAPSHOT'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.3'
+    }
+}
+
+plugins {
+    id 'java-library'
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+description = 'pliantresp-client'
+version '0.0.1'
+
+jar {
+    manifest {
+        attributes('Implementation-Title': project.description,
+                'Implementation-Version': project.version)
+    }
+}
+
+shadowJar {
+    baseName 'pliantresp'
+    classifier 'client'
+    version = 0.1
+}
 
 dependencies {
     compile group: 'io.github.openfeign', name: 'feign-core', version: '10.3.0'

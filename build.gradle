@@ -4,10 +4,6 @@ allprojects {
 	}
 }
 
-subprojects {
-	apply plugin: 'java'
-	apply plugin: 'application'	
-
-	group = 'com.ferick.alexander'
-	sourceCompatibility = '1.8'
+subprojects {		
+	group = 'com.ferick.alexander'	
 }

@@ -1,15 +1,40 @@
-description = 'standalone'
-version = '0.0.1-SNAPSHOT'
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.3'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'application'	
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+description = 'pliantresp-standalone'
+version = '0.0.1'
+sourceCompatibility = '1.8'
 
 mainClassName = 'com.ferick.alexander.PliantrespApplication'
 
 jar {
 	manifest {
-		attributes 'Main-Class': "${mainClassName}"
+		attributes ('Main-Class': "${mainClassName}",
+				'Implementation-Title': project.description,
+				'Implementation-Version': project.version)
 	}
 	from {
 		configurations.compile.collect {it.isDirectory() ? it : zipTree(it)}
 	}
+}
+
+shadowJar {
+	baseName 'pliantresp'
+	classifier 'standalone'
+	version = 0.1
 }
 
 dependencies {
