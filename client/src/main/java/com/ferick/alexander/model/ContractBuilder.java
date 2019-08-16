@@ -1,5 +1,6 @@
 package com.ferick.alexander.model;
 
+import com.ferick.alexander.utils.MapUtils;
 import java.util.Map;
 
 public class ContractBuilder {
@@ -26,8 +27,8 @@ public class ContractBuilder {
         return this;
     }
 
-    public ContractBuilder withRequestHeaders(Map<String, String> requestHeaders) {
-        this.request.setHeaders(requestHeaders);
+    public ContractBuilder withRequestHeaders(String... requestHeaders) {
+        this.request.setHeaders(MapUtils.asMap(requestHeaders));
         return this;
     }
 
@@ -48,12 +49,12 @@ public class ContractBuilder {
         return this;
     }
 
-    public ContractBuilder withPositiveResponseHeaders(Map<String, String> positiveResponseHeaders) {
+    public ContractBuilder withPositiveResponseHeaders(String... positiveResponseHeaders) {
         if (positiveResponse == null) {
             positiveResponse = new ResponseDTO();
             positiveResponse.setStatus(DEFAULT_POSITIVE_STATUS);
         }
-        positiveResponse.setHeaders(positiveResponseHeaders);
+        positiveResponse.setHeaders(MapUtils.asMap(positiveResponseHeaders));
         return this;
     }
 
@@ -74,12 +75,12 @@ public class ContractBuilder {
         return this;
     }
 
-    public ContractBuilder withNegativeResponseHeaders(Map<String, String> negativeResponseHeaders) {
+    public ContractBuilder withNegativeResponseHeaders(String... negativeResponseHeaders) {
         if (negativeResponse == null) {
             negativeResponse = new ResponseDTO();
             negativeResponse.setStatus(DEFAULT_NEGATIVE_STATUS);
         }
-        negativeResponse.setHeaders(negativeResponseHeaders);
+        negativeResponse.setHeaders(MapUtils.asMap(negativeResponseHeaders));
         return this;
     }
 
