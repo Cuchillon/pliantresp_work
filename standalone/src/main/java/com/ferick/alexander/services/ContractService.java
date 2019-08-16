@@ -50,11 +50,11 @@ public class ContractService {
             for (Contract contract : contracts) {
                 jsonList.add(JsonTransformer.toJson(contract));
             }
-            return jsonList.toString();
         } else {
             response.status(HttpStatus.NOT_FOUND_404);
-            return "Contracts list is empty";
         }
+
+        return jsonList.toString();
     }
 
     public String deleteContract(Request request, Response response) {
