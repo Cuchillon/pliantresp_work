@@ -1,9 +1,5 @@
 package com.ferick.alexander;
 
-import com.ferick.alexander.model.Contract;
-import com.ferick.alexander.model.ContractBuilder;
-import com.ferick.alexander.model.RequestDTO;
-import com.ferick.alexander.model.RequestPath;
 import java.net.URL;
 
 public class PliantrespClient {
@@ -17,9 +13,6 @@ public class PliantrespClient {
     private String host;
     private int port;
     private String serverUrl;
-
-    private Contract contract;
-    private RequestDTO request;
 
     public PliantrespClient() {
         this.scheme = DEFAULT_SCHEME;
@@ -54,9 +47,5 @@ public class PliantrespClient {
         this.host = url.getHost();
         this.port = url.getPort();
         this.serverUrl = String.format(ADDRESS_TEMPLATE, scheme, host, port);
-    }
-
-    public void setContract(String path, String method) {
-        Contract contract = new ContractBuilder("/", "POST").build();
     }
 }
