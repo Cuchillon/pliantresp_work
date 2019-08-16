@@ -10,7 +10,7 @@ public interface ContractEndPoints {
     @RequestLine("GET /storage/contracts")
     List<Contract> getContracts();
 
-    @RequestLine("GET /storage/contract")
+    @RequestLine("POST /storage/contract")
     String addContract(Contract contract);
 
     @RequestLine("DELETE /storage/contracts")
