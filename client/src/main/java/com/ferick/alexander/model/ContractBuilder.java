@@ -4,61 +4,82 @@ import java.util.Map;
 
 public class ContractBuilder {
 
-    private String requestPath;
-    private String requestMethod;
-    private String requestBody;
-    private Map<String, String> requestHeaders;
-    private Integer positiveResponseStatus;
-    private String positiveResponseBody;
-    private Map<String, String> positiveResponseHeaders;
-    private Integer negativeResponseStatus;
-    private String negativeResponseBody;
-    private Map<String, String> negativeResponseHeaders;
+    private static final Integer DEFAULT_POSITIVE_STATUS = 200;
+    private static final Integer DEFAULT_NEGATIVE_STATUS = 400;
+
+    private final RequestPath requestPath = new RequestPath();
+    private final RequestDTO request = new RequestDTO();
+
+    private ResponseDTO positiveResponse;
+    private ResponseDTO negativeResponse;
+
     private Integer responseTimeout;
 
 
     public ContractBuilder(String requestPath, String requestMethod) {
-        this.requestPath = requestPath;
-        this.requestMethod = requestMethod;
+        this.requestPath.setPath(requestPath);
+        this.request.setMethod(requestMethod);
     }
 
     public ContractBuilder withRequestBody(String requestBody) {
-        this.requestBody = requestBody;
+        this.request.setBody(requestBody);
         return this;
     }
 
     public ContractBuilder withRequestHeaders(Map<String, String> requestHeaders) {
-        this.requestHeaders = requestHeaders;
+        this.request.setHeaders(requestHeaders);
         return this;
     }
 
-    public ContractBuilder setPositiveResponseStatus(Integer positiveResponseStatus) {
-        this.positiveResponseStatus = positiveResponseStatus;
+    public ContractBuilder withPositiveResponseStatus(Integer positiveResponseStatus) {
+        if (positiveResponse == null) {
+            positiveResponse = new ResponseDTO();
+        }
+        positiveResponse.setStatus(positiveResponseStatus);
         return this;
     }
 
-    public ContractBuilder setPositiveResponseBody(String positiveResponseBody) {
-        this.positiveResponseBody = positiveResponseBody;
+    public ContractBuilder withPositiveResponseBody(String positiveResponseBody) {
+        if (positiveResponse == null) {
+            positiveResponse = new ResponseDTO();
+            positiveResponse.setStatus(DEFAULT_POSITIVE_STATUS);
+        }
+        positiveResponse.setBody(positiveResponseBody);
         return this;
     }
 
-    public ContractBuilder setPositiveResponseHeaders(Map<String, String> positiveResponseHeaders) {
-        this.positiveResponseHeaders = positiveResponseHeaders;
+    public ContractBuilder withPositiveResponseHeaders(Map<String, String> positiveResponseHeaders) {
+        if (positiveResponse == null) {
+            positiveResponse = new ResponseDTO();
+            positiveResponse.setStatus(DEFAULT_POSITIVE_STATUS);
+        }
+        positiveResponse.setHeaders(positiveResponseHeaders);
         return this;
     }
 
-    public ContractBuilder setNegativeResponseStatus(Integer negativeResponseStatus) {
-        this.negativeResponseStatus = negativeResponseStatus;
+    public ContractBuilder withNegativeResponseStatus(Integer negativeResponseStatus) {
+        if (negativeResponse == null) {
+            negativeResponse = new ResponseDTO();
+        }
+        negativeResponse.setStatus(negativeResponseStatus);
         return this;
     }
 
-    public ContractBuilder setNegativeResponseBody(String negativeResponseBody) {
-        this.negativeResponseBody = negativeResponseBody;
+    public ContractBuilder withNegativeResponseBody(String negativeResponseBody) {
+        if (negativeResponse == null) {
+            negativeResponse = new ResponseDTO();
+            negativeResponse.setStatus(DEFAULT_NEGATIVE_STATUS);
+        }
+        negativeResponse.setBody(negativeResponseBody);
         return this;
     }
 
-    public ContractBuilder setNegativeResponseHeaders(Map<String, String> negativeResponseHeaders) {
-        this.negativeResponseHeaders = negativeResponseHeaders;
+    public ContractBuilder withNegativeResponseHeaders(Map<String, String> negativeResponseHeaders) {
+        if (negativeResponse == null) {
+            negativeResponse = new ResponseDTO();
+            negativeResponse.setStatus(DEFAULT_NEGATIVE_STATUS);
+        }
+        negativeResponse.setHeaders(negativeResponseHeaders);
         return this;
     }
 
@@ -70,16 +91,19 @@ public class ContractBuilder {
     public Contract build() {
         Contract contract = new Contract();
 
-        RequestPath path = new RequestPath();
-        path.setPath(requestPath);
+        contract.setRequestPath(requestPath);
+        contract.setRequest(request);
 
-        RequestDTO request = new RequestDTO();
-        request.setMethod(requestMethod);
-        if (requestBody != null) {
-            request.setBody(requestBody);
+        if (positiveResponse != null) {
+            contract.setPositiveResponse(positiveResponse);
         }
-        if (requestHeaders != null) {
-            request.setHeaders(requestHeaders);
+
+        if (negativeResponse != null) {
+            contract.setNegativeResponse(negativeResponse);
+        }
+
+        if (responseTimeout != null) {
+            contract.setResponseTimeout(responseTimeout);
         }
 
         return contract;
