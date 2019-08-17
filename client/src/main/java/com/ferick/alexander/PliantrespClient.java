@@ -63,25 +63,31 @@ public class PliantrespClient {
     }
 
     public List<Contract> getContracts() {
-        return contractService().getContracts();
+        return contractServiceWithJsonResponse().getContracts();
     }
 
     public String addContract(Contract contract) {
-        return contractService().addContract(contract);
+        return contractServiceWithDefaultTypeResponse().addContract(contract);
     }
 
     public String deleteContracts() {
-        return contractService().deleteContracts();
+        return contractServiceWithDefaultTypeResponse().deleteContracts();
     }
 
     public String deleteContract(RequestPath requestPath) {
-        return contractService().deleteContract(requestPath);
+        return contractServiceWithDefaultTypeResponse().deleteContract(requestPath);
     }
 
-    private ContractEndPoints contractService() {
+    private ContractEndPoints contractServiceWithJsonResponse() {
         return Feign.builder()
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
+                .target(ContractEndPoints.class, serverUrl);
+    }
+
+    private ContractEndPoints contractServiceWithDefaultTypeResponse() {
+        return Feign.builder()
+                .encoder(new JacksonEncoder())
                 .target(ContractEndPoints.class, serverUrl);
     }
 }

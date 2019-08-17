@@ -44,14 +44,12 @@ public class ContractService {
         List<String> jsonList = new ArrayList<>();
         List<Contract> contracts = ContractStorage.getAll();
 
+        response.status(HttpStatus.OK_200);
+        response.type("application/json");
         if (!contracts.isEmpty()) {
-            response.status(HttpStatus.OK_200);
-            response.type("application/json");
             for (Contract contract : contracts) {
                 jsonList.add(JsonTransformer.toJson(contract));
             }
-        } else {
-            response.status(HttpStatus.NOT_FOUND_404);
         }
 
         return jsonList.toString();
