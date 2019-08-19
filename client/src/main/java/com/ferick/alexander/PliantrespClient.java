@@ -1,6 +1,7 @@
 package com.ferick.alexander;
 
 import com.ferick.alexander.model.Contract;
+import com.ferick.alexander.model.RequestDTO;
 import com.ferick.alexander.model.RequestPath;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
@@ -78,6 +79,18 @@ public class PliantrespClient {
         return contractServiceWithDefaultTypeResponse().deleteContract(requestPath);
     }
 
+    public List<RequestDTO> getRequests() {
+        return requestServiceWithJsonResponse().getRequests();
+    }
+
+    public RequestDTO getRequest(RequestPath requestPath) {
+        return requestServiceWithJsonResponse().getRequest(requestPath);
+    }
+
+    public String deleteRequests() {
+        return requestServiceWithDefaultTypeResponse().deleteRequests();
+    }
+
     private ContractEndPoints contractServiceWithJsonResponse() {
         return Feign.builder()
                 .encoder(new JacksonEncoder())
@@ -89,5 +102,18 @@ public class PliantrespClient {
         return Feign.builder()
                 .encoder(new JacksonEncoder())
                 .target(ContractEndPoints.class, serverUrl);
+    }
+
+    private RequestEndPoints requestServiceWithJsonResponse() {
+        return Feign.builder()
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
+                .target(RequestEndPoints.class, serverUrl);
+    }
+
+    private RequestEndPoints requestServiceWithDefaultTypeResponse() {
+        return Feign.builder()
+                .encoder(new JacksonEncoder())
+                .target(RequestEndPoints.class, serverUrl);
     }
 }
