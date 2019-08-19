@@ -24,16 +24,18 @@ public class RequestDTO {
         return path;
     }
 
-    public void setPath(String path) {
+    public RequestDTO setPath(String path) {
         this.path = path;
+        return this;
     }
 
     public String getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
+    public RequestDTO setMethod(String method) {
         this.method = method;
+        return this;
     }
 
     public String getBody() {
