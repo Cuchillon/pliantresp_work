@@ -56,7 +56,7 @@ public class ContractService {
     }
 
     public String deleteContract(Request request, Response response) {
-        String responseBody;
+        String responseBody = "";
         RequestPath requestPath = null;
         boolean isDeleted = false;
 
@@ -68,14 +68,14 @@ public class ContractService {
 
         if (requestPath != null) {
             isDeleted = ContractStorage.delete(requestPath);
-        }
-
-        if ((isDeleted)) {
             response.status(HttpStatus.OK_200);
-            responseBody = "Contract is deleted";
+            if ((isDeleted)) {
+                responseBody = "Contract is deleted";
+            } else {
+                responseBody = "Contract is already empty";
+            }
         } else {
             response.status(HttpStatus.BAD_REQUEST_400);
-            responseBody = "Contract is not deleted";
         }
 
         return responseBody;

@@ -28,14 +28,13 @@ public class RequestService {
 
         if (requestPath != null) {
             Optional<RequestDTO> requestOptional = RequestStorage.get(requestPath.getPath());
+            response.status(HttpStatus.OK_200);
 
             if (requestOptional.isPresent()) {
                 RequestDTO requestDTO = requestOptional.get();
-                response.status(HttpStatus.OK_200);
                 response.type("application/json");
                 responseBody = JsonTransformer.toJson(requestDTO);
             } else {
-                response.status(HttpStatus.NOT_FOUND_404);
                 responseBody = "Requests list is empty";
             }
         } else {
