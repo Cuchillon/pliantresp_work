@@ -8,7 +8,6 @@ public class ContractBuilder {
     private static final Integer DEFAULT_POSITIVE_STATUS = 200;
     private static final Integer DEFAULT_NEGATIVE_STATUS = 400;
 
-    private final RequestPath requestPath = new RequestPath();
     private final RequestDTO request = new RequestDTO();
 
     private ResponseDTO positiveResponse;
@@ -18,7 +17,7 @@ public class ContractBuilder {
 
 
     public ContractBuilder(String requestPath, String requestMethod) {
-        this.requestPath.setPath(requestPath);
+        this.request.setPath(requestPath);
         this.request.setMethod(requestMethod);
     }
 
@@ -92,7 +91,6 @@ public class ContractBuilder {
     public Contract build() {
         Contract contract = new Contract();
 
-        contract.setRequestPath(requestPath);
         contract.setRequest(request);
 
         if (positiveResponse != null) {

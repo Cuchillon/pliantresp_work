@@ -1,7 +1,7 @@
 package com.ferick.alexander;
 
 import com.ferick.alexander.model.Contract;
-import com.ferick.alexander.model.RequestPath;
+import com.ferick.alexander.model.RequestDTO;
 import feign.RequestLine;
 import java.util.List;
 
@@ -17,5 +17,5 @@ public interface ContractEndPoints {
     String deleteContracts();
 
     @RequestLine("DELETE /storage/contract")
-    String deleteContract(RequestPath requestPath);
+    String deleteContract(RequestDTO request);
 }

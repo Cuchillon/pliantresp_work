@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Contract {
 
-    @JsonProperty(required = true, value = "request_path")
-    private RequestPath requestPath;
-
     @JsonProperty(required = true)
     private RequestDTO request;
 
@@ -22,14 +19,6 @@ public class Contract {
     private Integer responseTimeout;
 
     public Contract() {
-    }
-
-    public RequestPath getRequestPath() {
-        return requestPath;
-    }
-
-    public void setRequestPath(RequestPath requestPath) {
-        this.requestPath = requestPath;
     }
 
     public RequestDTO getRequest() {

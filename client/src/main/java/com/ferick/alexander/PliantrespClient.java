@@ -75,16 +75,16 @@ public class PliantrespClient {
         return contractServiceWithDefaultTypeResponse().deleteContracts();
     }
 
-    public String deleteContract(RequestPath requestPath) {
-        return contractServiceWithDefaultTypeResponse().deleteContract(requestPath);
+    public String deleteContract(RequestDTO request) {
+        return contractServiceWithDefaultTypeResponse().deleteContract(request);
     }
 
     public List<RequestDTO> getRequests() {
         return requestServiceWithJsonResponse().getRequests();
     }
 
-    public RequestDTO getRequest(RequestPath requestPath) {
-        return requestServiceWithJsonResponse().getRequest(requestPath);
+    public RequestDTO getRequest(RequestDTO request) {
+        return requestServiceWithJsonResponse().getRequest(request);
     }
 
     public String deleteRequests() {
