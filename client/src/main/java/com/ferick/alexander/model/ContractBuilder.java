@@ -90,7 +90,6 @@ public class ContractBuilder {
     public Contract build() {
         Contract contract = new Contract();
 
-
         contract.setRequest(request);
 
         if (positiveResponse != null) {
