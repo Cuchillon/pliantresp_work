@@ -25,7 +25,9 @@ public class ContractService {
             e.printStackTrace();
         }
 
-        if (contract != null) {
+        if (contract != null
+                && contract.getRequest().getPath() != null
+                && contract.getRequest().getMethod() != null) {
             isAdded = ContractStorage.add(contract);
         }
 
@@ -58,7 +60,6 @@ public class ContractService {
     public String deleteContract(Request request, Response response) {
         String responseBody = "";
         RequestDTO requestDTO = null;
-        boolean isDeleted = false;
 
         try {
             requestDTO = new ObjectMapper().readValue(request.body(), RequestDTO.class);
@@ -66,8 +67,10 @@ public class ContractService {
             e.printStackTrace();
         }
 
-        if (requestDTO != null) {
-            isDeleted = ContractStorage.delete(requestDTO);
+        if (requestDTO != null
+                && requestDTO.getPath() != null
+                && requestDTO.getMethod() != null) {
+            boolean isDeleted = ContractStorage.delete(requestDTO);
             response.status(HttpStatus.OK_200);
             if ((isDeleted)) {
                 responseBody = "Contract is deleted";
