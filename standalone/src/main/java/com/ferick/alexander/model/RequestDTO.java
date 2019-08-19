@@ -9,18 +9,29 @@ import java.util.Map;
 public class RequestDTO {
 
     @JsonProperty(required = true)
+    private String path;
+
+    @JsonProperty(required = true)
     private String method;
+
     private String body = "";
     private Map<String, String> headers = new HashMap<>();
 
     public RequestDTO() {
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public String getMethod() {
         return method;
     }
 
-    @JsonProperty
     public void setMethod(String method) {
         this.method = method;
     }

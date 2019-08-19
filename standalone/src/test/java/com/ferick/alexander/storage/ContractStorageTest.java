@@ -1,23 +1,28 @@
 package com.ferick.alexander.storage;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import com.ferick.alexander.model.Contract;
-import com.ferick.alexander.model.RequestPath;
+import com.ferick.alexander.model.RequestDTO;
 import org.junit.Test;
 
 public class ContractStorageTest {
+
+    private static final String REQUEST_METHOD = "POST";
+    private static final String WRONG_REQUEST_METHOD = "GET";
 
     @Test
     public void withSplatMatchingTest() {
         ContractStorage.clear();
 
         ContractStorage.add(getContractWithPath("/test1/*/level1/*"));
-        assertFalse(ContractStorage.get("/test").isPresent());
-        assertFalse(ContractStorage.get("/test1/param1/level2/*").isPresent());
-        assertTrue(ContractStorage.get("/test1/param/level1/*").isPresent());
-        assertTrue(ContractStorage.get("/test1/*/level1/param").isPresent());
-        assertTrue(ContractStorage.get("/test1/:param1/level1/:param2").isPresent());
+        assertFalse(ContractStorage.get("/test", REQUEST_METHOD).isPresent());
+        assertFalse(ContractStorage.get("/test1/param1/level2/*", REQUEST_METHOD).isPresent());
+        assertTrue(ContractStorage.get("/test1/param/level1/*", REQUEST_METHOD).isPresent());
+        assertTrue(ContractStorage.get("/test1/*/level1/param", REQUEST_METHOD).isPresent());
+        assertTrue(ContractStorage.get("/test1/:param1/level1/:param2", REQUEST_METHOD).isPresent());
     }
 
     @Test
@@ -25,11 +30,11 @@ public class ContractStorageTest {
         ContractStorage.clear();
 
         ContractStorage.add(getContractWithPath("/test1/:param1/level1/:param2"));
-        assertFalse(ContractStorage.get("/test/value").isPresent());
-        assertFalse(ContractStorage.get("/test1/value/level2/*").isPresent());
-        assertTrue(ContractStorage.get("/test1/value/level1/value2").isPresent());
-        assertTrue(ContractStorage.get("/test1/*/level1/*").isPresent());
-        assertTrue(ContractStorage.get("/test1/:param2/level1/:param1").isPresent());
+        assertFalse(ContractStorage.get("/test/value", REQUEST_METHOD).isPresent());
+        assertFalse(ContractStorage.get("/test1/value/level2/*", REQUEST_METHOD).isPresent());
+        assertTrue(ContractStorage.get("/test1/value/level1/value2", REQUEST_METHOD).isPresent());
+        assertTrue(ContractStorage.get("/test1/*/level1/*", REQUEST_METHOD).isPresent());
+        assertTrue(ContractStorage.get("/test1/:param2/level1/:param1", REQUEST_METHOD).isPresent());
     }
 
     @Test
@@ -37,9 +42,9 @@ public class ContractStorageTest {
         ContractStorage.clear();
 
         ContractStorage.add(getContractWithPath("/test1/value1/level1/value2"));
-        assertFalse(ContractStorage.get("/test").isPresent());
-        assertFalse(ContractStorage.get("/test1/param1/level2/*").isPresent());
-        assertTrue(ContractStorage.get("/test1/:param/level1/:param2").isPresent());
+        assertFalse(ContractStorage.get("/test", REQUEST_METHOD).isPresent());
+        assertFalse(ContractStorage.get("/test1/param1/level2/*", REQUEST_METHOD).isPresent());
+        assertTrue(ContractStorage.get("/test1/:param/level1/:param2", REQUEST_METHOD).isPresent());
     }
 
     @Test
@@ -63,11 +68,21 @@ public class ContractStorageTest {
         assertEquals(2, ContractStorage.count());
     }
 
+    @Test
+    public void withWrongMethodTest() {
+        ContractStorage.clear();
+
+        ContractStorage.add(getContractWithPath("/test1/value1"));
+        assertFalse(ContractStorage.get("/test1/value1", WRONG_REQUEST_METHOD).isPresent());
+        assertTrue(ContractStorage.get("/test1/value1", REQUEST_METHOD).isPresent());
+    }
+
     private Contract getContractWithPath(String path) {
         Contract contract = new Contract();
-        RequestPath requestPath = new RequestPath();
-        requestPath.setPath(path);
-        contract.setRequestPath(requestPath);
+        RequestDTO request = new RequestDTO();
+        request.setPath(path);
+        request.setMethod(REQUEST_METHOD);
+        contract.setRequest(request);
         return contract;
     }
 }

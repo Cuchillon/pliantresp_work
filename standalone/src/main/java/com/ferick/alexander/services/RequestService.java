@@ -2,12 +2,10 @@ package com.ferick.alexander.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ferick.alexander.model.RequestDTO;
-import com.ferick.alexander.model.RequestPath;
 import com.ferick.alexander.storage.RequestStorage;
 import com.ferick.alexander.utils.JsonTransformer;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jetty.http.HttpStatus;
@@ -18,22 +16,22 @@ public class RequestService {
 
     public String getRequest(Request request, Response response) {
         String responseBody = "";
-        RequestPath requestPath = null;
+        RequestDTO requestDTO = null;
 
         try {
-            requestPath = new ObjectMapper().readValue(request.body(), RequestPath.class);
+            requestDTO = new ObjectMapper().readValue(request.body(), RequestDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (requestPath != null) {
-            Optional<RequestDTO> requestOptional = RequestStorage.get(requestPath.getPath());
+        if (requestDTO != null) {
+            Optional<RequestDTO> requestOptional = RequestStorage.get(requestDTO.getPath(), requestDTO.getMethod());
             response.status(HttpStatus.OK_200);
 
             if (requestOptional.isPresent()) {
-                RequestDTO requestDTO = requestOptional.get();
+                RequestDTO storedRequest = requestOptional.get();
                 response.type("application/json");
-                responseBody = JsonTransformer.toJson(requestDTO);
+                responseBody = JsonTransformer.toJson(storedRequest);
             } else {
                 responseBody = "Requests list is empty";
             }
@@ -46,7 +44,7 @@ public class RequestService {
 
     public String getRequests(Request request, Response response) {
         List<String> jsonList = new ArrayList<>();
-        Collection<RequestDTO> requests = RequestStorage.getAll();
+        List<RequestDTO> requests = RequestStorage.getAll();
 
         if (!requests.isEmpty()) {
             response.status(HttpStatus.OK_200);

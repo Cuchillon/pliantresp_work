@@ -2,7 +2,7 @@ package com.ferick.alexander.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ferick.alexander.model.Contract;
-import com.ferick.alexander.model.RequestPath;
+import com.ferick.alexander.model.RequestDTO;
 import com.ferick.alexander.storage.ContractStorage;
 import com.ferick.alexander.utils.JsonTransformer;
 import java.io.IOException;
@@ -57,17 +57,17 @@ public class ContractService {
 
     public String deleteContract(Request request, Response response) {
         String responseBody = "";
-        RequestPath requestPath = null;
+        RequestDTO requestDTO = null;
         boolean isDeleted = false;
 
         try {
-            requestPath = new ObjectMapper().readValue(request.body(), RequestPath.class);
+            requestDTO = new ObjectMapper().readValue(request.body(), RequestDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (requestPath != null) {
-            isDeleted = ContractStorage.delete(requestPath);
+        if (requestDTO != null) {
+            isDeleted = ContractStorage.delete(requestDTO);
             response.status(HttpStatus.OK_200);
             if ((isDeleted)) {
                 responseBody = "Contract is deleted";

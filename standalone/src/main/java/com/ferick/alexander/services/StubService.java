@@ -23,13 +23,13 @@ public class StubService {
         storeRequest(request);
 
         String requestPath = request.pathInfo();
-        Optional<Contract> contractOptional = ContractStorage.get(requestPath);
+        Optional<Contract> contractOptional = ContractStorage.get(requestPath, request.requestMethod());
 
         if (contractOptional.isPresent()) {
             Contract contract = contractOptional.get();
             boolean isMatched = RequestVerifier.matchRequest(request, contract);
             Map<String, String> pathParams =
-                    RequestVerifier.getPathParams(requestPath, contract.getRequestPath().getPath());
+                    RequestVerifier.getPathParams(requestPath, contract.getRequest().getPath());
 
             if (contract.getResponseTimeout() != null) {
                 Tools.delay(contract.getResponseTimeout());
@@ -76,6 +76,7 @@ public class StubService {
 
     private void storeRequest(Request request) {
         RequestDTO requestDTO = new RequestDTO();
+        requestDTO.setPath(request.pathInfo());
         requestDTO.setMethod(request.requestMethod());
         requestDTO.setBody(request.body());
         Set<String> headers = request.headers();
@@ -83,6 +84,6 @@ public class StubService {
             requestDTO.getHeaders().put(header, request.headers(header));
         }
 
-        RequestStorage.add(request.pathInfo(), requestDTO);
+        RequestStorage.add(requestDTO);
     }
 }

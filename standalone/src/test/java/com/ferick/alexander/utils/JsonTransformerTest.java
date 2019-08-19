@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import com.ferick.alexander.model.Contract;
 import com.ferick.alexander.model.RequestDTO;
-import com.ferick.alexander.model.RequestPath;
 import com.ferick.alexander.model.ResponseDTO;
 import com.ferick.alexander.storage.ContractStorage;
 import java.io.IOException;
@@ -37,11 +36,8 @@ public class JsonTransformerTest {
     private Contract getContract() {
         Contract contract = new Contract();
 
-        RequestPath requestPath = new RequestPath();
-        requestPath.setPath("/test1/*");
-        contract.setRequestPath(requestPath);
-
         RequestDTO request = new RequestDTO();
+        request.setPath("/test1/*");
         request.setMethod("POST");
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("Content-type", "application/json");

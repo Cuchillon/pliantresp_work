@@ -1,13 +1,11 @@
 {
   "request": {
+    "path": "/test1/*",
     "method":"POST",
     "body":"{some object}",
     "headers": {
       "Content-type": "application/json"
     }
-  },
-  "request_path": {
-    "path": "/test1/*"
   },
   "positive_response": {
     "status": 200,

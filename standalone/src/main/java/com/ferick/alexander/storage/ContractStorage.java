@@ -1,7 +1,7 @@
 package com.ferick.alexander.storage;
 
 import com.ferick.alexander.model.Contract;
-import com.ferick.alexander.model.RequestPath;
+import com.ferick.alexander.model.RequestDTO;
 import com.ferick.alexander.utils.RequestVerifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,10 @@ public class ContractStorage {
 
     private static List<Contract> contracts = new ArrayList<>();
 
-    public static Optional<Contract> get(String pathInfo) {
+    public static Optional<Contract> get(String pathInfo, String requestMethod) {
         return contracts.stream()
-                .filter(contract -> RequestVerifier.matchPaths(pathInfo, contract.getRequestPath().getPath()))
+                .filter(contract -> RequestVerifier.matchPaths(pathInfo, contract.getRequest().getPath()))
+                .filter(contract -> requestMethod.equals(contract.getRequest().getMethod()))
                 .findFirst();
     }
 
@@ -22,15 +23,16 @@ public class ContractStorage {
     }
 
     public static boolean add(Contract contract) {
-        delete(contract.getRequestPath());
+        delete(contract.getRequest());
         return contracts.add(contract);
     }
 
-    public static boolean delete(RequestPath requestPath) {
+    public static boolean delete(RequestDTO request) {
         boolean deleted = false;
-        for (Contract item : contracts) {
-            if (RequestVerifier.matchPaths(requestPath.getPath(), item.getRequestPath().getPath())) {
-                deleted = contracts.remove(item);
+        for (Contract contract : contracts) {
+            if (RequestVerifier.matchPaths(request.getPath(), contract.getRequest().getPath())
+                    && request.getMethod().equals(contract.getRequest().getMethod())) {
+                deleted = contracts.remove(contract);
                 break;
             }
         }
