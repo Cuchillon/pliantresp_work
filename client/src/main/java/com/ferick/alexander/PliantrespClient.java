@@ -2,7 +2,6 @@ package com.ferick.alexander;
 
 import com.ferick.alexander.model.Contract;
 import com.ferick.alexander.model.RequestDTO;
-import com.ferick.alexander.model.RequestPath;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;

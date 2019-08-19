@@ -1,7 +1,6 @@
 package com.ferick.alexander.model;
 
 import com.ferick.alexander.utils.MapUtils;
-import java.util.Map;
 
 public class ContractBuilder {
 
