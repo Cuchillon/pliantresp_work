@@ -3,6 +3,7 @@ package com.ferick.alexander;
 import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.patch;
+import static spark.Spark.path;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
@@ -13,23 +14,34 @@ import com.ferick.alexander.services.StubService;
 public class PliantrespApplication {
 
     public static void main(String[] args) {
+        path("/storage", PliantrespApplication::storageController);
+        path("/", PliantrespApplication::stubController);
+    }
+
+    private static void storageController() {
+        ContractService contractService = new ContractService();
+        RequestService requestService = new RequestService();
 
         // Methods to work with contracts
-        get("/storage/contracts", new ContractService()::getContracts);
-        post("/storage/contract", new ContractService()::addContract);
-        delete("/storage/contracts", new ContractService()::deleteContracts);
-        delete("/storage/contract", new ContractService()::deleteContract);
+        get("/contracts", contractService::getContracts);
+        post("/contract", contractService::addContract);
+        delete("/contracts", contractService::deleteContracts);
+        delete("/contract", contractService::deleteContract);
 
         // Methods to get stored requests
-        get("/storage/requests", new RequestService()::getRequests);
-        post("/storage/request", new RequestService()::getRequest);
-        delete("/storage/requests", new RequestService()::deleteRequests);
+        get("/requests", requestService::getRequests);
+        post("/request", requestService::getRequest);
+        delete("/requests", requestService::deleteRequests);
+    }
+
+    private static void stubController() {
+        StubService stubService = new StubService();
 
         // Methods to work with stubs
-        get("/*", new StubService()::getResponse);
-        post("/*", new StubService()::getResponse);
-        put("/*", new StubService()::getResponse);
-        patch("/*", new StubService()::getResponse);
-        delete("/*", new StubService()::getResponse);
+        get("*", stubService::getResponse);
+        post("*", stubService::getResponse);
+        put("*", stubService::getResponse);
+        patch("*", stubService::getResponse);
+        delete("*", stubService::getResponse);
     }
 }
