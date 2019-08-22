@@ -17,6 +17,14 @@ import spark.Response;
 
 public class StubService {
 
+    /**
+     * Method to get matching stub response stored on {@link ContractStorage}
+     *
+     * @param request
+     * @param response
+     * @return positive response if received request matches request from stored contract,
+     * otherwise returns negative response
+     */
     public String getResponse(Request request, Response response) {
         String responseBody = "";
 
