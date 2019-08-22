@@ -8,3 +8,6 @@
  */
 
 rootProject.name = 'pliantresp'
+include 'standalone'
+include 'client'
+

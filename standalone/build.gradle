@@ -1,0 +1,45 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.3'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'application'	
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+description = 'pliantresp-standalone'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+
+mainClassName = 'com.ferick.alexander.PliantrespApplication'
+
+jar {
+	manifest {
+		attributes ('Main-Class': "${mainClassName}",
+				'Implementation-Title': project.description,
+				'Implementation-Version': project.version)
+	}
+	from {
+		configurations.compile.collect {it.isDirectory() ? it : zipTree(it)}
+	}
+}
+
+shadowJar {
+	baseName 'pliantresp'
+	classifier 'standalone'
+	version = 0.1
+}
+
+dependencies {
+    compile "com.sparkjava:spark-core:2.8.0"
+	compile 'org.slf4j:slf4j-simple:1.7.21'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.9.9.2'
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+}
