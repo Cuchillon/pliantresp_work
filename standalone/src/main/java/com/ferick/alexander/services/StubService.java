@@ -18,7 +18,8 @@ import spark.Response;
 public class StubService {
 
     /**
-     * Method to get matching stub response stored on {@link ContractStorage}
+     * Method to get stub response stored on {@link ContractStorage}
+     * matching path and request method
      *
      * @param request
      * @param response
