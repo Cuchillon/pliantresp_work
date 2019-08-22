@@ -19,7 +19,7 @@ public class RequestVerifier {
      * Part count separated by '/' must be equal
      *
      * @param requestPath path from received request
-     * @param contractPath path from contract stored in {@link com.ferick.alexander.storage.ContractStorage}
+     * @param contractPath path from contract stored on {@link com.ferick.alexander.storage.ContractStorage}
      * @return true if paths are equal, otherwise false
      */
     public static boolean matchPaths(String requestPath, String contractPath) {
@@ -61,7 +61,7 @@ public class RequestVerifier {
      * Method compares received request with request template contained in stored contract
      *
      * @param request received request
-     * @param contract contract stored in {@link com.ferick.alexander.storage.ContractStorage}
+     * @param contract contract stored on {@link com.ferick.alexander.storage.ContractStorage}
      * @return true if request is matched, otherwise false
      */
     public static boolean matchRequest(Request request, Contract contract) {
@@ -86,7 +86,7 @@ public class RequestVerifier {
      * Method extracts named parameters, if present, from path
      *
      * @param requestPath path from received request
-     * @param contractPath path from contract stored in {@link com.ferick.alexander.storage.ContractStorage}
+     * @param contractPath path from contract stored on {@link com.ferick.alexander.storage.ContractStorage}
      * @return map where name of parameter is key
      */
     public static Map<String, String> getPathParams(String requestPath, String contractPath) {

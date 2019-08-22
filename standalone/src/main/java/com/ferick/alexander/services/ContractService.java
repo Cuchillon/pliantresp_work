@@ -14,6 +14,13 @@ import spark.Response;
 
 public class ContractService {
 
+    /**
+     * Method stores contract 'request-response' on {@link ContractStorage}
+     *
+     * @param request
+     * @param response
+     * @return response body containing message whether contract is stored or not
+     */
     public String addContract(Request request, Response response) {
         String responseBody;
         Contract contract = null;
@@ -42,6 +49,13 @@ public class ContractService {
         return responseBody;
     }
 
+    /**
+     * Method gets all contracts 'request-response' stored on {@link ContractStorage}
+     *
+     * @param request
+     * @param response
+     * @return list of stored contracts, if there are no contracts returns empty list
+     */
     public String getContracts(Request request, Response response) {
         List<String> jsonList = new ArrayList<>();
         List<Contract> contracts = ContractStorage.getAll();
@@ -57,6 +71,15 @@ public class ContractService {
         return jsonList.toString();
     }
 
+    /**
+     * Method deletes contract 'request-response' from {@link ContractStorage}
+     * matching path and request method
+     *
+     * @param request
+     * @param response
+     * @return response body containing message whether contract is deleted
+     * or there is no suitable contract in the storage
+     */
     public String deleteContract(Request request, Response response) {
         String responseBody = "";
         RequestDTO requestDTO = null;
@@ -75,7 +98,7 @@ public class ContractService {
             if ((isDeleted)) {
                 responseBody = "Contract is deleted";
             } else {
-                responseBody = "Contract is already empty";
+                responseBody = "Contract list does not contain any suitable contract";
             }
         } else {
             response.status(HttpStatus.BAD_REQUEST_400);
@@ -84,6 +107,13 @@ public class ContractService {
         return responseBody;
     }
 
+    /**
+     * Method clears contract list
+     *
+     * @param request
+     * @param response
+     * @return response body containing message whether contract list is cleared or not
+     */
     public String deleteContracts(Request request, Response response) {
         String responseBody;
 
@@ -91,10 +121,10 @@ public class ContractService {
 
         if ((ContractStorage.count() == 0)) {
             response.status(HttpStatus.OK_200);
-            responseBody = "Contracts list is empty";
+            responseBody = "Contract list is empty";
         } else {
             response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
-            responseBody = "Contracts list is not empty";
+            responseBody = "Contract list is not empty";
         }
 
         return responseBody;
