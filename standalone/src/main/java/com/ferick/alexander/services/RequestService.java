@@ -14,6 +14,15 @@ import spark.Response;
 
 public class RequestService {
 
+    /**
+     * Method gets received request stored on {@link RequestStorage}
+     * matching path and request method
+     *
+     * @param request
+     * @param response
+     * @return response body containing request json or message that
+     * there is no suitable request in the storage
+     */
     public String getRequest(Request request, Response response) {
         String responseBody = "";
         RequestDTO requestDTO = null;
@@ -33,7 +42,7 @@ public class RequestService {
                 response.type("application/json");
                 responseBody = JsonTransformer.toJson(storedRequest);
             } else {
-                responseBody = "Requests list is empty";
+                responseBody = "Request list does not contain any suitable request";
             }
         } else {
             response.status(HttpStatus.BAD_REQUEST_400);
@@ -42,23 +51,33 @@ public class RequestService {
         return responseBody;
     }
 
+    /**
+     * Method gets all received requests stored on {@link RequestStorage}
+     *
+     * @param request
+     * @param response
+     * @return list of stored requests, if there are no requests returns empty list
+     */
     public String getRequests(Request request, Response response) {
         List<String> jsonList = new ArrayList<>();
         List<RequestDTO> requests = RequestStorage.getAll();
 
-        if (!requests.isEmpty()) {
-            response.status(HttpStatus.OK_200);
-            response.type("application/json");
-            for (RequestDTO requestDTO : requests) {
-                jsonList.add(JsonTransformer.toJson(requestDTO));
-            }
-            return jsonList.toString();
-        } else {
-            response.status(HttpStatus.NOT_FOUND_404);
-            return "Requests list is empty";
+        response.status(HttpStatus.OK_200);
+        response.type("application/json");
+        for (RequestDTO requestDTO : requests) {
+            jsonList.add(JsonTransformer.toJson(requestDTO));
         }
+
+        return jsonList.toString();
     }
 
+    /**
+     * Method clears request list
+     *
+     * @param request
+     * @param response
+     * @return response body containing message whether request list is cleared or not
+     */
     public String deleteRequests(Request request, Response response) {
         String responseBody;
 
@@ -66,10 +85,10 @@ public class RequestService {
 
         if ((RequestStorage.count() == 0)) {
             response.status(HttpStatus.OK_200);
-            responseBody = "Requests list is empty";
+            responseBody = "Request list is empty";
         } else {
             response.status(HttpStatus.INTERNAL_SERVER_ERROR_500);
-            responseBody = "Requests list is not empty";
+            responseBody = "Request list is not empty";
         }
 
         return responseBody;
