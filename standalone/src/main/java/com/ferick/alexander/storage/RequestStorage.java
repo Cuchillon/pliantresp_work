@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class to store received requests
+ */
 public class RequestStorage {
 
     private static List<RequestDTO> requests = new ArrayList<>();

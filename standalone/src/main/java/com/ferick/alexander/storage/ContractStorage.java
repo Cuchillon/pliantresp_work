@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class to store contracts 'request-response'
+ */
 public class ContractStorage {
 
     private static List<Contract> contracts = new ArrayList<>();
