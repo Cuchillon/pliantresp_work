@@ -106,7 +106,7 @@ public class RequestVerifier {
     }
 
     /**
-     * Method puts values of named parameters into {{:name}} blocks in stored request template body,
+     * Method puts values of named parameters into {{ parameter_name }} blocks in stored request template body,
      * if the body contains such blocks and block name is the same as parameter name
      *
      * @param pathParams parameters map
