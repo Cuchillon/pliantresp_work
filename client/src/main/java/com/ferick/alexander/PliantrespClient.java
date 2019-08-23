@@ -62,30 +62,72 @@ public class PliantrespClient {
         this.serverUrl = String.format(ADDRESS_TEMPLATE, scheme, host, port);
     }
 
+    /**
+     * Method gets all contracts 'request-response' stored on standalone server
+     *
+     * @return contract list
+     */
     public List<Contract> getContracts() {
         return contractServiceWithJsonResponse().getContracts();
     }
 
+    /**
+     * Method stores contract 'request-response' on standalone server
+     * If there is already a stored contract matching it, then overwrites it
+     *
+     * @param contract 'request-response'
+     * @return string message whether contract is stored or not
+     */
     public String addContract(Contract contract) {
         return contractServiceWithDefaultTypeResponse().addContract(contract);
     }
 
+    /**
+     * Method deletes all contracts 'request-response' stored on standalone server
+     *
+     * @return string message whether contracts are deleted or not
+     */
     public String deleteContracts() {
         return contractServiceWithDefaultTypeResponse().deleteContracts();
     }
 
+    /**
+     * Method deletes contract 'request-response' stored on standalone server,
+     * matching path and request method
+     *
+     * @param request containing path and request method
+     * @return string message whether contract is deleted or not
+     */
     public String deleteContract(RequestDTO request) {
         return contractServiceWithDefaultTypeResponse().deleteContract(request);
     }
 
+    /**
+     * Method gets all requests stored on standalone server
+     *
+     * @return request list
+     */
     public List<RequestDTO> getRequests() {
         return requestServiceWithJsonResponse().getRequests();
     }
 
+    /**
+     * Method gets request stored on standalone server,
+     * matching path and request method
+     *
+     * @param request containing path and request method
+     * @return request json or message that
+     * there is no suitable request in the storage
+     */
     public RequestDTO getRequest(RequestDTO request) {
         return requestServiceWithJsonResponse().getRequest(request);
     }
 
+    /**
+     * Method deletes all requests stored on standalone server
+     *
+     * @return string message whether requests are deleted or not
+     */
     public String deleteRequests() {
         return requestServiceWithDefaultTypeResponse().deleteRequests();
     }

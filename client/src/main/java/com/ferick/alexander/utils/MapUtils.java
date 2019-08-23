@@ -5,6 +5,13 @@ import java.util.Map;
 
 public class MapUtils {
 
+    /**
+     * Method to transform pair strings to {@link Map}
+     *
+     * @param entries range of strings which have to set key-value pairs
+     * @return map if number of strings is even
+     * @throws IllegalArgumentException if number of strings is odd
+     */
     public static Map<String, String> asMap(String... entries) {
         if (entries.length % 2 != 0) {
             throw new IllegalArgumentException("Odd number of elements in key-value pairs!");
