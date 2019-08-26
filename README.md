@@ -50,3 +50,21 @@ Contract contract = new ContractBuilder("/some/path", "POST")
                 .build();
 ```
 Примечание: headers передаются парами - "ключ", "значение", "ключ", "значение".
+
+
+#### Именованные параметры запроса
+Можно указать именованные параметры запроса и в контракте в теле ответа задать шаблон, пример:
+```
+Contract contract = new ContractBuilder("/some/:name1/path/:name2", "GET")                
+                .withPositiveResponseStatus(200)
+                .withPositiveResponseBody("{\"name\":\"{{name1}}\",\"description\":\"{{name2}}\"}")
+                .withPositiveResponseHeaders("Content-type", "application/json")                
+                .build();
+```
+В данном случае при запросе с request path '/some/first_value/path/second_value' ответ эмулятора будет содержать следующее:
+```
+{
+  "name": "first_value",
+  "description": "second_value"
+}
+```
