@@ -49,3 +49,4 @@ Contract contract = new ContractBuilder("/some/path", "POST")
                 .setResponseTimeout(10000)
                 .build();
 ```
+Примечание: headers передаются парами - "ключ", "значение", "ключ", "значение".
