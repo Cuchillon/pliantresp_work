@@ -35,7 +35,7 @@ cd build/libs
 11. Response timeout (опциональный параметр). Задержка ответа, указывается в миллисекундах.
 
 
-Пример формирования контракта (в данном примере указан весь список возможных методов):
+#### Пример формирования контракта (в данном примере указан весь список возможных методов):
 ```
 Contract contract = new ContractBuilder("/some/path", "POST")
                 .withRequestBody("{\"name\":\"Question\",\"description\":\"Something in request\"}")
