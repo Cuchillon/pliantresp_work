@@ -16,4 +16,6 @@ cd client
 ../gradlew shadowJar
 cd build/libs
 ```
-затем в build/libs взять pliantresp-0.1-client.jar и использовать как библиотеку в своих тестах.
+затем из build/libs скопировать pliantresp-0.1-client.jar и использовать как библиотеку в своих тестах.
+
+Примеры использования:
