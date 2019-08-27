@@ -8,7 +8,9 @@
 cd standalone
 ../gradlew shadowJar
 cd build/libs
-java -jar pliantresp-0.1-standalone.jar
+java -jar pliantresp-0.1-standalone.jar // по-умолчанию порт 4567
+java -jar pliantresp-0.1-standalone.jar 50053 // на порту 50053
+java -jar pliantresp-0.1-standalone.jar 0 // на рандомном порту
 ```
 * Для сборки клиента
 ```
