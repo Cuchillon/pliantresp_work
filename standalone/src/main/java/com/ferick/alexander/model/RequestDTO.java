@@ -14,7 +14,7 @@ public class RequestDTO {
     @JsonProperty(required = true)
     private String method;
 
-    private String body = "";
+    private String body;
     private Map<String, String> headers = new HashMap<>();
 
     public RequestDTO() {

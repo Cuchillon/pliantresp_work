@@ -69,7 +69,7 @@ public class RequestVerifier {
         RequestDTO contractRequest = contract.getRequest();
         String requestBody = StringUtils.removeSpecialSymbols(request.body());
 
-        if (!requestBody.equals(contractRequest.getBody())) {
+        if (contractRequest.getBody() != null && !requestBody.equals(contractRequest.getBody())) {
             isMatched = false;
         }
         for (Map.Entry<String, String> entry : contractRequest.getHeaders().entrySet()) {
