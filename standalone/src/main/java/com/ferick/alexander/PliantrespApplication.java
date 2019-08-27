@@ -4,6 +4,7 @@ import static spark.Spark.delete;
 import static spark.Spark.get;
 import static spark.Spark.patch;
 import static spark.Spark.path;
+import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
@@ -13,7 +14,11 @@ import com.ferick.alexander.services.StubService;
 
 public class PliantrespApplication {
 
+    private static final String ERROR_MESSAGE = "Wrong argument with port number!";
+
     public static void main(String[] args) {
+        setPort(args);
+
         path("/storage", PliantrespApplication::storageController);
         path("/", PliantrespApplication::stubController);
     }
@@ -43,5 +48,25 @@ public class PliantrespApplication {
         put("*", stubService::getResponse);
         patch("*", stubService::getResponse);
         delete("*", stubService::getResponse);
+    }
+
+    private static void setPort(String[] args) {
+        if (args.length > 0) {
+            int port = -1;
+            try {
+                port = Integer.parseInt(args[0]);
+            } catch (NumberFormatException nfe) {
+                System.out.println(ERROR_MESSAGE);
+                nfe.printStackTrace();
+                System.exit(1);
+            }
+
+            if (port >= 0 && port < 65536) {
+                port(port);
+            } else {
+                System.out.println(ERROR_MESSAGE);
+                System.exit(1);
+            }
+        }
     }
 }
