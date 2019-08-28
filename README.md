@@ -87,3 +87,23 @@ List<Contract> contracts = pliantresp.getContracts();
 RequestDTO request = new RequestDTO().setPath("/some/path").setMethod("POST");
 String message = pliantresp.deleteContract(request); // возвращает сообщение, удален контракт или нет
 ```
+4. Удалить все добавленные в эмулятор контракты
+```
+String message = pliantresp.deleteContracts(); // возвращает сообщение, удалены контракты или нет
+```
+
+#### Управление сохраненными запросами
+В эмуляторе имеется storage, в котором сохраняются поступившие запросы. Для управления хранилищем запросов в клиентской библиотеке доступны следующие методы:
+1. Получить все сохраненные запросы
+```
+List<RequestDTO> requests = pliantresp.getRequests();
+```
+2. Получить все сохраненный запрос по уникальному сочетанию 'request path-request method'
+```
+RequestDTO request = new RequestDTO().setPath("/some/path").setMethod("POST");
+RequestDTO storedRequest = pliantresp.getRequest(request);
+```
+3. Удалить все сохраненные запросы
+```
+String message = pliantresp.deleteRequests(); // возвращает сообщение, удалены запросы или нет
+```
