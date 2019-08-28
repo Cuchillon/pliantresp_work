@@ -107,3 +107,6 @@ RequestDTO storedRequest = pliantresp.getRequest(request);
 ```
 String message = pliantresp.deleteRequests(); // возвращает сообщение, удалены запросы или нет
 ```
+
+#### Примечание
+Пути запросов, начинающиеся со '/storage' являются служебными (предназначены для управления хранилищами контрактов и запросов).
