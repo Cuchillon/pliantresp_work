@@ -98,7 +98,7 @@ String message = pliantresp.deleteContracts(); // возвращает сооб�
 ```
 List<RequestDTO> requests = pliantresp.getRequests();
 ```
-2. Получить все сохраненный запрос по уникальному сочетанию 'request path-request method'
+2. Получить сохраненный запрос по уникальному сочетанию 'request path-request method'
 ```
 RequestDTO request = new RequestDTO().setPath("/some/path").setMethod("POST");
 RequestDTO storedRequest = pliantresp.getRequest(request);
