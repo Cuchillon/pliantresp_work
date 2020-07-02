@@ -3,6 +3,7 @@ package com.ferick.alexander.storage;
 import com.ferick.alexander.model.RequestDTO;
 import com.ferick.alexander.utils.RequestVerifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,35 +12,39 @@ import java.util.Optional;
  */
 public class RequestStorage {
 
-    private static List<RequestDTO> requests = new ArrayList<>();
+    private static final List<RequestDTO> REQUESTS = Collections.synchronizedList(new ArrayList<>());
 
     public static Optional<RequestDTO> get(String path, String requestMethod) {
-        return requests.stream()
-                .filter(request -> RequestVerifier.matchPaths(path, request.getPath()))
-                .filter(request -> requestMethod.equals(request.getMethod()))
-                .findFirst();
+        synchronized (REQUESTS) {
+            return REQUESTS.stream()
+                    .filter(request -> RequestVerifier.matchPaths(path, request.getPath()))
+                    .filter(request -> requestMethod.equals(request.getMethod()))
+                    .findFirst();
+        }
     }
 
     public static List<RequestDTO> getAll() {
-        return requests;
+        return Collections.unmodifiableList(REQUESTS);
     }
 
     public static void add(RequestDTO request) {
-        for (RequestDTO item : requests) {
-            if (RequestVerifier.matchPaths(request.getPath(), item.getPath())
-                    && request.getMethod().equals(item.getMethod())) {
-                requests.remove(item);
-                break;
+        synchronized (REQUESTS) {
+            for (RequestDTO item : REQUESTS) {
+                if (RequestVerifier.matchPaths(request.getPath(), item.getPath())
+                        && request.getMethod().equals(item.getMethod())) {
+                    REQUESTS.remove(item);
+                    break;
+                }
             }
+            REQUESTS.add(request);
         }
-        requests.add(request);
     }
 
     public static void clear() {
-        requests.clear();
+        REQUESTS.clear();
     }
 
     public static int count() {
-        return requests.size();
+        return REQUESTS.size();
     }
 }

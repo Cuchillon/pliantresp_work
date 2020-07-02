@@ -4,6 +4,7 @@ import com.ferick.alexander.model.Contract;
 import com.ferick.alexander.model.RequestDTO;
 import com.ferick.alexander.utils.RequestVerifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,41 +13,48 @@ import java.util.Optional;
  */
 public class ContractStorage {
 
-    private static List<Contract> contracts = new ArrayList<>();
+    private static final List<Contract> CONTRACTS = Collections.synchronizedList(new ArrayList<>());
 
     public static Optional<Contract> get(String pathInfo, String requestMethod) {
-        return contracts.stream()
-                .filter(contract -> RequestVerifier.matchPaths(pathInfo, contract.getRequest().getPath()))
-                .filter(contract -> requestMethod.equals(contract.getRequest().getMethod()))
-                .findFirst();
+        synchronized (CONTRACTS) {
+            return CONTRACTS.stream()
+                    .filter(contract -> RequestVerifier.matchPaths(pathInfo, contract.getRequest().getPath()))
+                    .filter(contract -> requestMethod.equals(contract.getRequest().getMethod()))
+                    .findFirst();
+        }
     }
 
     public static List<Contract> getAll() {
-        return contracts;
+        return Collections.unmodifiableList(CONTRACTS);
     }
 
     public static boolean add(Contract contract) {
-        delete(contract.getRequest());
-        return contracts.add(contract);
+        RequestDTO request = contract.getRequest();
+        synchronized (CONTRACTS) {
+            delete(request);
+            return CONTRACTS.add(contract);
+        }
     }
 
     public static boolean delete(RequestDTO request) {
         boolean deleted = false;
-        for (Contract contract : contracts) {
-            if (RequestVerifier.matchPaths(request.getPath(), contract.getRequest().getPath())
-                    && request.getMethod().equals(contract.getRequest().getMethod())) {
-                deleted = contracts.remove(contract);
-                break;
+        synchronized (CONTRACTS) {
+            for (Contract contract : CONTRACTS) {
+                if (RequestVerifier.matchPaths(request.getPath(), contract.getRequest().getPath())
+                        && request.getMethod().equals(contract.getRequest().getMethod())) {
+                    deleted = CONTRACTS.remove(contract);
+                    break;
+                }
             }
         }
         return deleted;
     }
 
     public static void clear() {
-        contracts.clear();
+        CONTRACTS.clear();
     }
 
     public static int count() {
-        return contracts.size();
+        return CONTRACTS.size();
     }
 }
